@@ -76,6 +76,7 @@ if __name__ == "__main__":
         
         pat_id = data_file.split("/")[-1]
         pat_id = "train_" + pat_id.split("-")[-1][:-4]
+        pat_id = pat_id.replace('_image','')
 
         img_itk = sitk.ReadImage(data_file)
         img_array = sitk.GetArrayFromImage(img_itk)
