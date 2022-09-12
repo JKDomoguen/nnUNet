@@ -64,7 +64,7 @@ if __name__ == "__main__":
 
 
     # output_folder = "/media/fabian/My Book/MedicalDecathlon/MedicalDecathlon_raw_splitted/Task029_LITS"
-    output_folder = "/media/disk1/jansen/code_rad/Dataset_Rad2/nnUNet_raw_data_base/nnUNet_raw_data/Task500_NPC"
+    output_folder = "/media/disk1/jansen/code_rad/Dataset_Rad2/nnUNet_raw_data_base/nnUNet_raw_data/Task501_NPC"
     img_dir = join(output_folder, "imagesTr")
     lab_dir = join(output_folder, "labelsTr")
 
