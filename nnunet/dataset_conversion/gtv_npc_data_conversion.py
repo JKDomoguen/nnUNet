@@ -21,7 +21,11 @@ import numpy as np
 from nnunet.configuration import default_num_threads
 from scipy.ndimage import label
 
+# /media/disk1/jansen/code_rad/Dataset_Rad2/nnUNet_preprocessed
+# /media/disk1/jansen/code_rad/Dataset_Rad2/nnUNet_trained_models
 
+# export nnUNet_preprocessed="/media/disk1/jansen/code_rad/Dataset_Rad2/nnUNet_preprocessed"
+# export RESULTS_FOLDER="/media/disk1/jansen/code_rad/Dataset_Rad2/nnUNet_trained_models"
 def export_segmentations(indir, outdir):
     niftis = subfiles(indir, suffix='nii.gz', join=False)
     for n in niftis:
@@ -83,13 +87,15 @@ if __name__ == "__main__":
         img_array = img_array.transpose(2, 1, 0)
         img_array = np.expand_dims(img_array, axis = 0)
         rev_img_itk = sitk.GetImageFromArray(img_array)
+        print(rev_img_itk.GetSize(),img_array.shape,'image')
         sitk.WriteImage(rev_img_itk, join(img_dir, pat_id + "_0000.nii.gz"))
 
         label_itk = sitk.ReadImage(seg_file)
         label_array = sitk.GetArrayFromImage(label_itk)
         label_array = label_array.transpose(2, 1, 0)
         label_array = np.expand_dims(label_array, axis = 0)
-        rev_label_itk = sitk.GetImageFromArray(label_array)        
+        rev_label_itk = sitk.GetImageFromArray(label_array)
+        print(rev_img_itk.GetSize(),label_array.shape,'label')        
         sitk.WriteImage(rev_label_itk, join(lab_dir, pat_id + ".nii.gz"))
 
         return pat_id
