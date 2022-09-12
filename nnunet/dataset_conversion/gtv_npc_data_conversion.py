@@ -84,6 +84,7 @@ if __name__ == "__main__":
 
         img_itk = sitk.ReadImage(data_file)
         img_array = sitk.GetArrayFromImage(img_itk)
+        print(img_array.shape,'original')
         img_array = img_array.transpose(2, 1, 0)
         img_array = np.expand_dims(img_array, axis = 0)
         rev_img_itk = sitk.GetImageFromArray(img_array)
@@ -92,6 +93,7 @@ if __name__ == "__main__":
 
         label_itk = sitk.ReadImage(seg_file)
         label_array = sitk.GetArrayFromImage(label_itk)
+        print(label_array.shape,'original')
         label_array = label_array.transpose(2, 1, 0)
         label_array = np.expand_dims(label_array, axis = 0)
         rev_label_itk = sitk.GetImageFromArray(label_array)
