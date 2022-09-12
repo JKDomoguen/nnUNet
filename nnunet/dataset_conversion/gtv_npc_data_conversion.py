@@ -93,6 +93,8 @@ if __name__ == "__main__":
 
     nii_files_tr_data = subfiles(train_dir, True, "image", "nii", True)
     nii_files_tr_seg = subfiles(train_dir, True, "mask", "nii", True)
+    print(nii_files_tr_data,'\n\n')
+    print(nii_files_tr_seg)
 
     # nii_files_ts = subfiles(test_dir, True, "test-volume", "nii", True)
 
