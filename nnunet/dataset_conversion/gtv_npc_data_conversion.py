@@ -12,6 +12,7 @@
 #    See the License for the specific language governing permissions and
 #    limitations under the License.
 
+import os
 from collections import OrderedDict
 import SimpleITK as sitk
 from batchgenerators.utilities.file_and_folder_operations import *
@@ -72,27 +73,42 @@ if __name__ == "__main__":
 
     def load_save_train(args):
         data_file, seg_file = args
+        
         pat_id = data_file.split("/")[-1]
         pat_id = "train_" + pat_id.split("-")[-1][:-4]
 
         img_itk = sitk.ReadImage(data_file)
-        sitk.WriteImage(img_itk, join(img_dir, pat_id + "_0000.nii.gz"))
+        img_array = sitk.GetArrayFromImage(img_itk)
+        img_array = img_array.transpose(2, 1, 0)
+        img_array = np.expand_dims(img_array, axis = 0)
+        rev_img_itk = sitk.GetImageFromArray(img_array)
+        sitk.WriteImage(rev_img_itk, join(img_dir, pat_id + "_0000.nii.gz"))
 
-        img_itk = sitk.ReadImage(seg_file)
-        sitk.WriteImage(img_itk, join(lab_dir, pat_id + ".nii.gz"))
+        label_itk = sitk.ReadImage(seg_file)
+        label_array = sitk.GetArrayFromImage(label_itk)
+        label_array = label_array.transpose(2, 1, 0)
+        label_array = np.expand_dims(label_array, axis = 0)
+        rev_label_itk = sitk.GetImageFromArray(label_array)        
+        sitk.WriteImage(rev_label_itk, join(lab_dir, pat_id + ".nii.gz"))
+
         return pat_id
 
-    def load_save_test(args):
-        data_file = args
-        pat_id = data_file.split("/")[-1]
-        pat_id = "test_" + pat_id.split("-")[-1][:-4]
+    # def load_save_test(args):
+    #     data_file = args
+    #     pat_id = data_file.split("/")[-1]
+    #     pat_id = "test_" + pat_id.split("-")[-1][:-4]
 
-        img_itk = sitk.ReadImage(data_file)
-        sitk.WriteImage(img_itk, join(img_dir_te, pat_id + "_0000.nii.gz"))
-        return pat_id
+    #     img_itk = sitk.ReadImage(data_file)
+    #     sitk.WriteImage(img_itk, join(img_dir_te, pat_id + "_0000.nii.gz"))
+    #     return pat_id
 
-    nii_files_tr_data = subfiles(train_dir, True, "image", "nii", True)
-    nii_files_tr_seg = subfiles(train_dir, True, "mask", "nii", True)
+    # nii_files_tr_data = subfiles(train_dir, True, "image", "nii", True)
+    # nii_files_tr_seg = subfiles(train_dir, True, "mask", "nii", True)
+    image_train_dir = os.path.join(train_dir,'image')
+    mask_train_dir = os.path.join(train_dir,'mask')
+    nii_files_tr_data = [os.path.join(image_train_dir,img_file) for img_file in os.listdir(image_train_dir) ]
+    nii_files_tr_seg = [os.path.join(mask_train_dir,mask_file) for mask_file in os.listdir(mask_train_dir) ]
+
     print(nii_files_tr_data,'\n\n')
     print(nii_files_tr_seg)
 
