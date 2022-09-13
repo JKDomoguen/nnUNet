@@ -64,7 +64,7 @@ if __name__ == "__main__":
 
 
     # output_folder = "/media/fabian/My Book/MedicalDecathlon/MedicalDecathlon_raw_splitted/Task029_LITS"
-    output_folder = "/media/disk1/jansen/code_rad/Dataset_Rad2/nnUNet_raw_data_base/nnUNet_raw_data/Task501_NPC"
+    output_folder = "/media/disk1/jansen/code_rad/Dataset_Rad2/nnUNet_raw_data_base/nnUNet_raw_data/Task510_NPC"
     img_dir = join(output_folder, "imagesTr")
     lab_dir = join(output_folder, "labelsTr")
 
@@ -83,22 +83,24 @@ if __name__ == "__main__":
         pat_id = pat_id.replace('_image','')
 
         img_itk = sitk.ReadImage(data_file)
-        img_array = sitk.GetArrayFromImage(img_itk)
-        print(img_array.shape,'original')
-        img_array = img_array.transpose(2, 1, 0)
-        img_array = np.expand_dims(img_array, axis = 0)
-        rev_img_itk = sitk.GetImageFromArray(img_array)
-        print(rev_img_itk.GetSize(),img_array.shape,'image')
-        sitk.WriteImage(rev_img_itk, join(img_dir, pat_id + "_0000.nii.gz"))
+        # img_array = sitk.GetArrayFromImage(img_itk)
+        # print(img_array.shape,'original')
+        # img_array = img_array.transpose(2, 1, 0)
+        # img_array = np.expand_dims(img_array, axis = 0)
+        # rev_img_itk = sitk.GetImageFromArray(img_array)
+        # print(rev_img_itk.GetSize(),img_array.shape,'image')
+        # sitk.WriteImage(rev_img_itk, join(img_dir, pat_id + "_0000.nii.gz"))
+        sitk.WriteImage(img_itk, join(img_dir, pat_id + "_0000.nii.gz"))
 
         label_itk = sitk.ReadImage(seg_file)
-        label_array = sitk.GetArrayFromImage(label_itk)
-        print(label_array.shape,'original')
-        label_array = label_array.transpose(2, 1, 0)
-        label_array = np.expand_dims(label_array, axis = 0)
-        rev_label_itk = sitk.GetImageFromArray(label_array)
-        print(rev_img_itk.GetSize(),label_array.shape,'label')        
-        sitk.WriteImage(rev_label_itk, join(lab_dir, pat_id + ".nii.gz"))
+        # label_array = sitk.GetArrayFromImage(label_itk)
+        # print(label_array.shape,'original')
+        # label_array = label_array.transpose(2, 1, 0)
+        # label_array = np.expand_dims(label_array, axis = 0)
+        # rev_label_itk = sitk.GetImageFromArray(label_array)
+        # print(rev_img_itk.GetSize(),label_array.shape,'label')        
+        # sitk.WriteImage(rev_label_itk, join(lab_dir, pat_id + ".nii.gz"))
+        sitk.WriteImage(label_itk, join(lab_dir, pat_id + ".nii.gz"))
 
         return pat_id
 
