@@ -64,7 +64,7 @@ if __name__ == "__main__":
 
 
     # output_folder = "/media/fabian/My Book/MedicalDecathlon/MedicalDecathlon_raw_splitted/Task029_LITS"
-    output_folder = "/media/disk1/jansen/code_rad/Dataset_Rad2/nnUNet_raw_data_base/nnUNet_raw_data/Task510_NPC"
+    output_folder = "/media/disk1/jansen/code_rad/Dataset_Rad2/nnUNet_raw_data_base/nnUNet_raw_data/Task510_Sample"
     img_dir = join(output_folder, "imagesTr")
     lab_dir = join(output_folder, "labelsTr")
 
@@ -77,7 +77,7 @@ if __name__ == "__main__":
 
     def load_save_train(args):
         data_file, seg_file = args
-        
+        print(data_file.split('/')[-1],seg_file.split('/')[-1])
         pat_id = data_file.split("/")[-1]
         pat_id = "train_" + pat_id.split("-")[-1][:-4]
         pat_id = pat_id.replace('_image','')
