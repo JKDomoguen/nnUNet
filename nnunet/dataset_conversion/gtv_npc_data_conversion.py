@@ -118,7 +118,7 @@ if __name__ == "__main__":
     image_train_dir = os.path.join(train_dir,'image')
     mask_train_dir = os.path.join(train_dir,'mask')
     nii_files_tr_data = [os.path.join(image_train_dir,img_file) for img_file in os.listdir(image_train_dir) ]
-    nii_files_tr_seg = [os.path.join(mask_train_dir,mask_file) for mask_file in os.listdir(mask_train_dir) ]
+    nii_files_tr_seg = [os.path.join(mask_train_dir,mask_file.replace('image','mask')) for mask_file in os.listdir(image_train_dir) ]
 
     print(nii_files_tr_data,'\n\n')
     print(nii_files_tr_seg)
