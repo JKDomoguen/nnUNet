@@ -13,6 +13,7 @@
 #    limitations under the License.
 
 import os
+import sys
 from collections import OrderedDict
 import SimpleITK as sitk
 from batchgenerators.utilities.file_and_folder_operations import *
@@ -59,12 +60,14 @@ def export_segmentations_postprocess(indir, outdir):
 if __name__ == "__main__":
     # train_dir = "/media/fabian/DeepLearningData/tmp/LITS-Challenge-Train-Data"
     # test_dir = "/media/fabian/My Book/datasets/LiTS/test_data"
-    train_dir = "/media/disk1/jansen/code_rad/Dataset_Rad2/nifti_gtv_uni"
+    # train_dir = "/media/disk1/jansen/code_rad/Dataset_Rad2/nifti_gtv_uni"
     # test_dir = "/media/fabian/My Book/datasets/LiTS/test_data"
+    fold = str(sys.argv[1])
+    train_dir = f"/media/disk1/jansen/code_rad/Dataset_Rad3/iteration_{fold}/gtv_train/uncut_scale_unproc"
 
 
     # output_folder = "/media/fabian/My Book/MedicalDecathlon/MedicalDecathlon_raw_splitted/Task029_LITS"
-    output_folder = "/media/disk1/jansen/code_rad/Dataset_Rad2/nnUNet_raw_data_base/nnUNet_raw_data/Task505_NPC"
+    output_folder = f"/media/disk1/jansen/code_rad/Dataset_Rad3/nnUNet_raw_data_base/nnUNet_raw_data/Task52{fold}_NPC"
     img_dir = join(output_folder, "imagesTr")
     lab_dir = join(output_folder, "labelsTr")
 
@@ -115,8 +118,8 @@ if __name__ == "__main__":
 
     # nii_files_tr_data = subfiles(train_dir, True, "image", "nii", True)
     # nii_files_tr_seg = subfiles(train_dir, True, "mask", "nii", True)
-    image_train_dir = os.path.join(train_dir,'image')
-    mask_train_dir = os.path.join(train_dir,'mask')
+    image_train_dir = os.path.join(train_dir,'data')
+    mask_train_dir = os.path.join(train_dir,'label')
     nii_files_tr_data = [os.path.join(image_train_dir,img_file) for img_file in os.listdir(image_train_dir) ]
     nii_files_tr_seg = [os.path.join(mask_train_dir,mask_file.replace('image','mask')) for mask_file in os.listdir(image_train_dir) ]
 
