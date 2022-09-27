@@ -37,11 +37,11 @@ def get_classwise_dice(predict, soft_y):
     tensor_dim = len(predict.shape)
     num_class  = list(predict.shape)[1]
     if(tensor_dim == 5):
-        soft_y  = soft_y.permute(0, 2, 3, 4, 1)
-        predict = predict.permute(0, 2, 3, 4, 1)
+        soft_y  = soft_y.transpose(0, 2, 3, 4, 1)
+        predict = predict.transpose(0, 2, 3, 4, 1)
     elif(tensor_dim == 4):
-        soft_y  = soft_y.permute(0, 2, 3, 1)
-        predict = predict.permute(0, 2, 3, 1)
+        soft_y  = soft_y.transpose(0, 2, 3, 1)
+        predict = predict.transpose(0, 2, 3, 1)
     else:
         raise ValueError("{0:}D tensor not supported".format(tensor_dim))
 
