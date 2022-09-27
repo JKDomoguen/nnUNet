@@ -34,8 +34,8 @@ def get_classwise_dice(predict, soft_y):
     """
     get dice scores for each class in predict and soft_y
     """
-    tensor_dim = len(predict.size())
-    num_class  = list(predict.size())[1]
+    tensor_dim = len(predict.shape())
+    num_class  = list(predict.shape())[1]
     if(tensor_dim == 5):
         soft_y  = soft_y.permute(0, 2, 3, 4, 1)
         predict = predict.permute(0, 2, 3, 4, 1)
