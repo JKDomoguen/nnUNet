@@ -106,9 +106,9 @@ if __name__ == "__main__":
         dice = binary_dice(img_nifti_out,img_nifti_gt)
         dice_ave.append(dice)
         print(nifti_out_file,nifti_out_file.replace('image','mask').strip('.gz'),dice)        
-        print('Done Next Image\n\n')
+        print('Done Next Image')
     dice_ave = 100*(sum(dice_ave)/len(dice_ave))
-    print(f"Average Value:{round(dice_ave,2) }")
+    print(f"Average Value:{round(dice_ave,5) }")
         # print(img_nifti_out.shape,img_nifti_gt.shape)
         # print(np.unique(img_nifti_out),np.unique(img_nifti_gt))
         # soft_out_seq = []
