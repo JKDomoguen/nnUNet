@@ -65,7 +65,7 @@ if __name__ == "__main__":
         nifti_out_path = os.path.join(output_prediction_dir,nifti_out_file)
         nifti_gt_path = os.path.join(groundtruth_mask_dir,nifti_out_file.replace('image','mask').strip('.gz'))
         if not os.path.isfile(nifti_gt_path):
-            print('Missing Ground Truth Path Invalid')
+            print(f'Missing Ground Truth Path Invalid:{nifti_gt_path.split("/")[-1]} for output:{nifti_out_file}')
             continue
         img_nifti_out, _ = load_origin_nifty_volume_as_array(nifti_out_path)
         img_nifti_gt,_ = load_origin_nifty_volume_as_array(nifti_gt_path)    
