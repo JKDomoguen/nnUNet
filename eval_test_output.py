@@ -45,12 +45,12 @@ def get_classwise_dice(predict, soft_y):
     else:
         raise ValueError("{0:}D tensor not supported".format(tensor_dim))
 
-    soft_y  = torch.reshape(soft_y,  (-1, num_class))
-    predict = torch.reshape(predict, (-1, num_class))
+    soft_y  = np.reshape(soft_y,  (-1, num_class))
+    predict = np.reshape(predict, (-1, num_class))
 
-    y_vol = torch.sum(soft_y,  dim = 0)
-    p_vol = torch.sum(predict, dim = 0)
-    intersect = torch.sum(soft_y * predict, dim = 0)
+    y_vol = np.sum(soft_y,  dim = 0)
+    p_vol = np.sum(predict, dim = 0)
+    intersect = np.sum(soft_y * predict, dim = 0)
     dice_score = (2.0 * intersect + 1e-5)/ (y_vol + p_vol + 1e-5)
     return dice_score
 
@@ -62,10 +62,10 @@ def get_soft_label(input_tensor, num_class,device='cpu'):
     """
     tensor_list = []
     for i in range(num_class):
-        temp_prob = input_tensor == i*torch.ones_like(input_tensor)
+        temp_prob = input_tensor == i*np.ones_like(input_tensor)
         # print(torch.unique(torch.squeeze(temp_prob).cpu()),'printing tensor',i)
         tensor_list.append(temp_prob)
-    output_tensor = torch.cat(tensor_list, dim = 1)
+    output_tensor = np.cat(tensor_list, dim = 1)
     output_tensor = output_tensor.double()
     return output_tensor
 
@@ -100,8 +100,8 @@ if __name__ == "__main__":
             soft_out_seq.append(get_soft_label(img_nifti_out_slice,CLASS_NUM))
             soft_label_seq.append(get_soft_label(img_nifti_gt_slice,CLASS_NUM))
         
-        soft_label_seq = torch.cat(soft_label_seq,dim=2)
-        soft_out_seq = torch.cat(soft_out_seq,dim=2)
+        soft_label_seq = np.cat(soft_label_seq,dim=2)
+        soft_out_seq = np.cat(soft_out_seq,dim=2)
         gtv_dice = get_classwise_dice(soft_out_seq,soft_label_seq).cpu().numpy()
         for c in range(CLASS_NUM):
             print('class_{}_dice,Test_dice_value:{}'.format(c,gtv_dice[c]))
