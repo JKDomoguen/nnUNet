@@ -6,6 +6,7 @@ import numpy as np
 import SimpleITK as sitk
 
 
+
 def load_origin_nifty_volume_as_array(filename):
     """
     load nifty image into numpy array, and transpose it based on the [z,y,x] axis order
@@ -53,6 +54,21 @@ def get_classwise_dice(predict, soft_y):
     dice_score = (2.0 * intersect + 1e-5)/ (y_vol + p_vol + 1e-5)
     return dice_score
 
+def get_soft_label(input_tensor, num_class,device='cpu'):
+    """
+        convert a label tensor to soft label
+        input_tensor: tensor with shae [B, 1, D, H, W]
+        output_tensor: shape [B, num_class, D, H, W]
+    """
+    tensor_list = []
+    for i in range(num_class):
+        temp_prob = input_tensor == i*torch.ones_like(input_tensor)
+        # print(torch.unique(torch.squeeze(temp_prob).cpu()),'printing tensor',i)
+        tensor_list.append(temp_prob)
+    output_tensor = torch.cat(tensor_list, dim = 1)
+    output_tensor = output_tensor.double()
+    return output_tensor
+
 
 
 SLICE = 16
@@ -73,11 +89,20 @@ if __name__ == "__main__":
         img_nifti_gt,_ = load_origin_nifty_volume_as_array(nifti_gt_path)    
         # print(img_nifti_out.shape,img_nifti_gt.shape)
         # print(np.unique(img_nifti_out),np.unique(img_nifti_gt))
-        
+        soft_out_seq = []
+        soft_label_seq = []
         for idx in range((len(img_nifti_gt)//SLICE + 1)):
             img_nifti_out_slice = img_nifti_out[idx*SLICE:(idx+1)*SLICE]
-            img_nifti_out_gt_slice = img_nifti_gt[idx*SLICE:(idx+1)*SLICE]
-            if len(np.unique(img_nifti_out_gt_slice)) != CLASS_NUM:
+            img_nifti_gt_slice = img_nifti_gt[idx*SLICE:(idx+1)*SLICE]
+            if len(np.unique(img_nifti_gt_slice)) != CLASS_NUM:
                 continue 
-            print(img_nifti_out_slice.shape,img_nifti_out_gt_slice.shape)
+            print(img_nifti_out_slice.shape,img_nifti_gt_slice.shape)
+            soft_out_seq.append(get_soft_label(img_nifti_out_slice,CLASS_NUM))
+            soft_label_seq.append(get_soft_label(img_nifti_gt_slice,CLASS_NUM))
+        
+        soft_label_seq = torch.cat(soft_label_seq,dim=2)
+        soft_out_seq = torch.cat(soft_out_seq,dim=2)
+        gtv_dice = get_classwise_dice(soft_out_seq,soft_label_seq).cpu().numpy()
+        for c in range(CLASS_NUM):
+            print('class_{}_dice,Test_dice_value:{}'.format(c,gtv_dice[c]))
         print('Done Next Image\n\n')
