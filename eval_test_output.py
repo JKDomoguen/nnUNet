@@ -107,8 +107,8 @@ if __name__ == "__main__":
         dice_ave.append(dice)
         print(nifti_out_file,nifti_out_file.replace('image','mask').strip('.gz'),dice)        
         print('Done Next Image\n\n')
-    dice_ave = round(sum(dice_ave)/len(dice_ave),3)
-    print(f"Average Value:{dice_ave}")
+    dice_ave = 100*(sum(dice_ave)/len(dice_ave))
+    print(f"Average Value:{round(dice_ave,2) }")
         # print(img_nifti_out.shape,img_nifti_gt.shape)
         # print(np.unique(img_nifti_out),np.unique(img_nifti_gt))
         # soft_out_seq = []
