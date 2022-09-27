@@ -66,7 +66,7 @@ def get_soft_label(input_tensor, num_class,device='cpu'):
         # print(torch.unique(torch.squeeze(temp_prob).cpu()),'printing tensor',i)
         tensor_list.append(temp_prob)
     output_tensor = np.concatenate(tensor_list, axis = 1)
-    output_tensor = output_tensor.double()
+    # output_tensor = output_tensor.double()
     return output_tensor
 
 
