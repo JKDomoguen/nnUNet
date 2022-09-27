@@ -69,6 +69,21 @@ def get_soft_label(input_tensor, num_class,device='cpu'):
     # output_tensor = output_tensor.double()
     return output_tensor
 
+def binary_dice(s, g, resize = False):
+    """
+    calculate the Dice score of two N-d volumes.
+    s: the segmentation volume of numpy array
+    g: the ground truth volume of numpy array
+    resize: if s and g have different shapes, resize s to match g.
+    """
+    assert(len(s.shape)== len(g.shape))
+
+    prod = np.multiply(s, g)
+    s0 = prod.sum()
+    s1 = s.sum()
+    s2 = g.sum()
+    dice = (2.0*s0 + 1e-5)/(s1 + s2 + 1e-5)
+    return dice
 
 
 SLICE = 16
@@ -87,6 +102,9 @@ if __name__ == "__main__":
             continue
         img_nifti_out, _ = load_origin_nifty_volume_as_array(nifti_out_path)
         img_nifti_gt,_ = load_origin_nifty_volume_as_array(nifti_gt_path)    
+        dice = binary_dice(img_nifti_out,img_nifti_gt)
+        continue
+        
         # print(img_nifti_out.shape,img_nifti_gt.shape)
         # print(np.unique(img_nifti_out),np.unique(img_nifti_gt))
         soft_out_seq = []
