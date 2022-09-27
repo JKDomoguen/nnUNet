@@ -60,8 +60,10 @@ if __name__ == "__main__":
     output_prediction_dir = f"/media/disk1/jansen/code_rad/Dataset_Rad3/iteration_{fold}/gtv_test/uncut_scale_unproc/nnunet_output"
     groundtruth_mask_dir = f"/media/disk1/jansen/code_rad/Dataset_Rad3/iteration_{fold}/gtv_test/uncut_scale_unproc/label"
     for nifti_out_file in os.listdir(output_prediction_dir):
+        if nifti_out_file.endswith(".nii.gz"):
+            continue
         nifti_out_path = os.path.join(output_prediction_dir,nifti_out_file)
-        nifti_gt_path = os.path.join(groundtruth_mask_dir,nifti_out_file)
+        nifti_gt_path = os.path.join(groundtruth_mask_dir,nifti_out_file.replace('image','mask').strip('.gz'))
         if not os.path.isfile(nifti_gt_path):
             print('Missing Ground Truth Path Invalid')
             continue
