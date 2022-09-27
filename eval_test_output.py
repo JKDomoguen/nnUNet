@@ -77,6 +77,6 @@ if __name__ == "__main__":
         for idx in range((len(img_nifti_gt)//SLICE + 1)):
             img_nifti_out_slice = img_nifti_out[idx*SLICE:(idx+1)*SLICE]
             img_nifti_out_gt_slice = img_nifti_gt[idx*SLICE:(idx+1)*SLICE]
-            if np.unique(img_nifti_out_gt_slice) != CLASS_NUM:
+            if len(np.unique(img_nifti_out_gt_slice)) != CLASS_NUM:
                 continue 
             print(img_nifti_out_slice.shape,img_nifti_out_gt_slice.shape)
