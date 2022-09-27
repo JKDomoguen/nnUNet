@@ -1,9 +1,9 @@
 import os 
+import sys
 import torch
 import nibabel
+import SimpleITK as sitk
 
-output_prediction_dir = ""
-groundtruth_mask_dir = ""
 
 def load_origin_nifty_volume_as_array(filename):
     """
@@ -53,12 +53,18 @@ def get_classwise_dice(predict, soft_y):
     return dice_score
 
 
-for nifti_out_file in os.listdir(output_prediction_dir):
-    nifti_out_path = os.path.join(output_prediction_dir,nifti_out_file)
-    nifti_gt_path = os.path.join(groundtruth_mask_dir,nifti_out_file)
-    if not os.path.isfile(nifti_gt_path):
-        print('Missing Ground Truth Path Invalid')
-        continue
-    img_nifti_out, _ = load_origin_nifty_volume_as_array(nifti_out_path)
-    img_nifti_gt,_ = load_origin_nifty_volume_as_array(nifti_gt_path)
     
+
+if __name__ == "__main__":
+    fold = str(sys.argv[1])
+    output_prediction_dir = f"/media/disk1/jansen/code_rad/Dataset_Rad3/iteration_{fold}/gtv_test/uncut_scale_unproc/nnunet_output"
+    groundtruth_mask_dir = f"/media/disk1/jansen/code_rad/Dataset_Rad3/iteration_{fold}/gtv_test/uncut_scale_unproc/label"
+    for nifti_out_file in os.listdir(output_prediction_dir):
+        nifti_out_path = os.path.join(output_prediction_dir,nifti_out_file)
+        nifti_gt_path = os.path.join(groundtruth_mask_dir,nifti_out_file)
+        if not os.path.isfile(nifti_gt_path):
+            print('Missing Ground Truth Path Invalid')
+            continue
+        img_nifti_out, _ = load_origin_nifty_volume_as_array(nifti_out_path)
+        img_nifti_gt,_ = load_origin_nifty_volume_as_array(nifti_gt_path)    
+        print(img_nifti_out.shape,img_nifti_gt.shape)
