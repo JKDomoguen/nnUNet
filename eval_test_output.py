@@ -70,4 +70,5 @@ if __name__ == "__main__":
             continue
         img_nifti_out, _ = load_origin_nifty_volume_as_array(nifti_out_path)
         img_nifti_gt,_ = load_origin_nifty_volume_as_array(nifti_gt_path)    
-        print(img_nifti_out.shape==img_nifti_gt.shape)
+        print(img_nifti_out.shape,img_nifti_gt.shape)
+        print(np.unique(img_nifti_out),np.unique(img_nifti_gt))
