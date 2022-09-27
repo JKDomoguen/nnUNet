@@ -102,6 +102,9 @@ if __name__ == "__main__":
         
         soft_label_seq = np.concatenate(soft_label_seq,axis=2)
         soft_out_seq = np.concatenate(soft_out_seq,axis=2)
+        soft_label_seq = np.expand_dims(soft_label_seq,axis=0)
+        soft_out_seq = np.expand_dims(soft_out_seq,axis=0)
+        
         gtv_dice = get_classwise_dice(soft_out_seq,soft_label_seq).cpu().numpy()
         for c in range(CLASS_NUM):
             print('class_{}_dice,Test_dice_value:{}'.format(c,gtv_dice[c]))
