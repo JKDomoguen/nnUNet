@@ -56,7 +56,7 @@ def get_classwise_dice(predict, soft_y):
 
 
 SLICE = 16
-
+CLASS_NUM = 2
 if __name__ == "__main__":
     fold = str(sys.argv[1])
     output_prediction_dir = f"/media/disk1/jansen/code_rad/Dataset_Rad3/iteration_{fold}/gtv_test/uncut_scale_unproc/nnunet_output"
@@ -77,4 +77,6 @@ if __name__ == "__main__":
         for idx in range((len(img_nifti_gt)//SLICE + 1)):
             img_nifti_out_slice = img_nifti_out[idx*SLICE:(idx+1)*SLICE]
             img_nifti_out_gt_slice = img_nifti_gt[idx*SLICE:(idx+1)*SLICE]
+            if np.unique(img_nifti_out_gt_slice) != CLASS_NUM:
+                continue 
             print(img_nifti_out_slice.shape,img_nifti_out_gt_slice.shape)
