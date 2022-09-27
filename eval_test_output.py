@@ -103,6 +103,7 @@ if __name__ == "__main__":
         img_nifti_out, _ = load_origin_nifty_volume_as_array(nifti_out_path)
         img_nifti_gt,_ = load_origin_nifty_volume_as_array(nifti_gt_path)    
         dice = binary_dice(img_nifti_out,img_nifti_gt)
+        print(nifti_out_file,nifti_out_file.replace('image','mask').strip('.gz'),dice)
         continue
         
         # print(img_nifti_out.shape,img_nifti_gt.shape)
