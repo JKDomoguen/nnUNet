@@ -65,7 +65,7 @@ def get_soft_label(input_tensor, num_class,device='cpu'):
         temp_prob = input_tensor == i*np.ones_like(input_tensor)
         # print(torch.unique(torch.squeeze(temp_prob).cpu()),'printing tensor',i)
         tensor_list.append(temp_prob)
-    output_tensor = np.cat(tensor_list, dim = 1)
+    output_tensor = np.concatenate(tensor_list, dim = 1)
     output_tensor = output_tensor.double()
     return output_tensor
 
@@ -100,8 +100,8 @@ if __name__ == "__main__":
             soft_out_seq.append(get_soft_label(img_nifti_out_slice,CLASS_NUM))
             soft_label_seq.append(get_soft_label(img_nifti_gt_slice,CLASS_NUM))
         
-        soft_label_seq = np.cat(soft_label_seq,dim=2)
-        soft_out_seq = np.cat(soft_out_seq,dim=2)
+        soft_label_seq = np.concatenate(soft_label_seq,dim=2)
+        soft_out_seq = np.concatenate(soft_out_seq,dim=2)
         gtv_dice = get_classwise_dice(soft_out_seq,soft_label_seq).cpu().numpy()
         for c in range(CLASS_NUM):
             print('class_{}_dice,Test_dice_value:{}'.format(c,gtv_dice[c]))
