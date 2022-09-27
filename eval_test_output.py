@@ -94,14 +94,15 @@ if __name__ == "__main__":
         for idx in range((len(img_nifti_gt)//SLICE + 1)):
             img_nifti_out_slice = img_nifti_out[idx*SLICE:(idx+1)*SLICE]
             img_nifti_gt_slice = img_nifti_gt[idx*SLICE:(idx+1)*SLICE]
-            if len(np.unique(img_nifti_gt_slice)) != CLASS_NUM:
-                continue 
+            # if len(np.unique(img_nifti_gt_slice)) != CLASS_NUM:
+            #     continue 
             print(img_nifti_out_slice.shape,img_nifti_gt_slice.shape)
             soft_out_seq.append(get_soft_label(img_nifti_out_slice,CLASS_NUM))
             soft_label_seq.append(get_soft_label(img_nifti_gt_slice,CLASS_NUM))
         
         soft_label_seq = np.concatenate(soft_label_seq,axis=2)
         soft_out_seq = np.concatenate(soft_out_seq,axis=2)
+
         soft_label_seq = np.expand_dims(soft_label_seq,axis=0)
         soft_out_seq = np.expand_dims(soft_out_seq,axis=0)
         
