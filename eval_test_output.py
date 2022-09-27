@@ -48,8 +48,8 @@ def get_classwise_dice(predict, soft_y):
     soft_y  = np.reshape(soft_y,  (-1, num_class))
     predict = np.reshape(predict, (-1, num_class))
 
-    y_vol = np.sum(soft_y,  dim = 0)
-    p_vol = np.sum(predict, dim = 0)
+    y_vol = np.sum(soft_y,  axis = 0)
+    p_vol = np.sum(predict, axis = 0)
     intersect = np.sum(soft_y * predict, dim = 0)
     dice_score = (2.0 * intersect + 1e-5)/ (y_vol + p_vol + 1e-5)
     return dice_score
