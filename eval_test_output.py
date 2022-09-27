@@ -80,3 +80,4 @@ if __name__ == "__main__":
             if len(np.unique(img_nifti_out_gt_slice)) != CLASS_NUM:
                 continue 
             print(img_nifti_out_slice.shape,img_nifti_out_gt_slice.shape)
+        print('Done Next Image\n\n')
