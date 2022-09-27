@@ -54,7 +54,8 @@ def get_classwise_dice(predict, soft_y):
     return dice_score
 
 
-    
+
+SLICE = 16
 
 if __name__ == "__main__":
     fold = str(sys.argv[1])
@@ -70,5 +71,10 @@ if __name__ == "__main__":
             continue
         img_nifti_out, _ = load_origin_nifty_volume_as_array(nifti_out_path)
         img_nifti_gt,_ = load_origin_nifty_volume_as_array(nifti_gt_path)    
-        print(img_nifti_out.shape,img_nifti_gt.shape)
-        print(np.unique(img_nifti_out),np.unique(img_nifti_gt))
+        # print(img_nifti_out.shape,img_nifti_gt.shape)
+        # print(np.unique(img_nifti_out),np.unique(img_nifti_gt))
+        
+        for idx in range((len(img_nifti_gt)//SLICE + 1)):
+            img_nifti_out_slice = img_nifti_out[idx*SLICE:(idx+1)*SLICE]
+            img_nifti_out_gt_slice = img_nifti_gt[idx*SLICE:(idx+1)*SLICE]
+            print(img_nifti_out_slice.shape,img_nifti_out_gt_slice.shape)
