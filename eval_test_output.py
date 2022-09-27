@@ -2,6 +2,7 @@ import os
 import sys
 import torch
 import nibabel
+import numpy as np
 import SimpleITK as sitk
 
 
