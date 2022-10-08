@@ -91,8 +91,16 @@ CLASS_NUM = 2
 dice_ave = []
 if __name__ == "__main__":
     fold = str(sys.argv[1])
-    output_prediction_dir = f"/media/disk1/jansen/code_rad/Dataset_Rad3/iteration_{fold}/gtv_test/uncut_scale_unproc/nnunet_output"
+    nnunet_archi = str(sys.argv[2])
     groundtruth_mask_dir = f"/media/disk1/jansen/code_rad/Dataset_Rad3/iteration_{fold}/gtv_test/uncut_scale_unproc/label"
+
+    if nnunet_archi == '2d':
+        output_prediction_dir = f"/media/disk1/jansen/code_rad/Dataset_Rad3/iteration_{fold}/gtv_test/uncut_scale_unproc/nnunet_output_2d"
+    elif nnunet_archi == '3d_lowres':
+        output_prediction_dir = f"/media/disk1/jansen/code_rad/Dataset_Rad3/iteration_{fold}/gtv_test/uncut_scale_unproc/nnunet_output_lowres"
+    else:        
+        output_prediction_dir = f"/media/disk1/jansen/code_rad/Dataset_Rad3/iteration_{fold}/gtv_test/uncut_scale_unproc/nnunet_output"
+
     for nifti_out_file in os.listdir(output_prediction_dir):
         if not nifti_out_file.endswith(".nii.gz"):
             continue
@@ -108,7 +116,7 @@ if __name__ == "__main__":
         print(nifti_out_file,nifti_out_file.replace('image','mask').strip('.gz'),dice)        
         print('Done Next Image')
     dice_ave = 100*(sum(dice_ave)/len(dice_ave))
-    print(f"Average Value:{round(dice_ave,5) }")
+    print(f"Average Value:{round(dice_ave,5) } for fold:{fold} and Archi:{nnunet_archi}")
         # print(img_nifti_out.shape,img_nifti_gt.shape)
         # print(np.unique(img_nifti_out),np.unique(img_nifti_gt))
         # soft_out_seq = []
